@@ -13,18 +13,17 @@ const Login = ({setUsuarioAdmin}) => {
     const iniciarSesion=(usuario)=>{
         console.log(usuario)
         if(usuario.email === import.meta.env.VITE_API_EMAIL && usuario.password === import.meta.env.VITE_API_PASSWORD){
-            console.log(import.meta.env.VITE_API_EMAIL)  
-        }else {
-            console.log("Credenciales incorrectas")
-            alert("Credenciales incorrectas")
+            //soy el administrador
+            console.log('Soy el administrador')
             setUsuarioAdmin(true)
             sessionStorage.setItem('userKey', true)
             navegacion('/administrador')
+        }else {
+            console.log('Email o contraseña incorrecto.')
         }
 
     }
 
-    console.log(import.meta.env.VITE_API_EMAIL)
     return (
         <section  className='container'>
             <h1 className="text-center">Login</h1>

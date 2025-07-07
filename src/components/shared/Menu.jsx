@@ -5,7 +5,8 @@ import { NavLink, Link } from "react-router";
 const Menu = ({usuarioAdmin, setUsuarioAdmin}) => {
   const logout = () =>{
     setUsuarioAdmin(false)
-    sessionStorage.removeItem()
+    sessionStorage.removeItem('userKey')
+    navegacion('/')
   }
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
@@ -29,7 +30,7 @@ const Menu = ({usuarioAdmin, setUsuarioAdmin}) => {
                 <NavLink className="nav-link" to={"/administrador"}>
                   Administrador
                 </NavLink>
-                <Button className="nav-link">Logout</Button>
+                <Button className="nav-link" onClick={logout}>Logout</Button>
               </>
             ) : (
               <NavLink className="nav-link" to={"/login"}>
