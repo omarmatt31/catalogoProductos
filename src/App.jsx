@@ -15,6 +15,7 @@ function App() {
   const usuarioLogueado = JSON.parse(sessionStorage.getItem('userKey')) || false
   //no ES NECESARIO EL json.PARSE, xq un valor booleano es un datp valido
   const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado)
+  const [productos, setProductos] = useState([])
   return (
     <>
     <BrowserRouter>
@@ -25,7 +26,7 @@ function App() {
           <Route path="/detalle" element={<DetalleProducto></DetalleProducto>}></Route>
           <Route path="/login" element={<Login setUsuarioAdmin={setUsuarioAdmin}></Login>}></Route>
           <Route path="/administrador" element={<ProtectorAdmin isAdmin={usuarioAdmin}></ProtectorAdmin>}>
-            <Route index element={<Administrador></Administrador>}></Route>
+            <Route index element={<Administrador setProductos={setProductos} productos={productos}></Administrador>}></Route>
             <Route path="crear" element={<FormularioProducto></FormularioProducto>}></Route>
             <Route path="editar" element={<FormularioProducto></FormularioProducto>}></Route>
           </Route>
