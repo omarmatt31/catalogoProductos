@@ -3,7 +3,6 @@ import { Container, Card, Row, Col } from "react-bootstrap";
 const DetalleProducto = () => {
   return (
     <Container className="my-3 mainSection">
-      <Card>
         <Row>
           <Col md={6}>
             <Card.Img
@@ -25,7 +24,6 @@ const DetalleProducto = () => {
             </Card.Body>
           </Col>
         </Row>
-      </Card>
     </Container>
   );
 };

@@ -8,21 +8,25 @@ import FormularioProducto from "./components/pages/producto/FormularioProducto";
 import Footer from "./components/shared/Footer";
 import Menu from "./components/shared/Menu";
 import Login from "./components/pages/producto/Login";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProtectorAdmin from "./components/routes/ProtectorAdmin";
 
 function App() {
   const usuarioLogueado = JSON.parse(sessionStorage.getItem('userKey')) || false
-  //no ES NECESARIO EL json.PARSE, xq un valor booleano es un datp valido
+  const productosLocalStorage = JSON.parse(localStorage.getItem('catalogoProductos')) || []
   const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado)
-  const [productos, setProductos] = useState([])
+  const [productos, setProductos] = useState(productosLocalStorage)
+
+  useEffect(()=>{
+    localStorage.setItem('catalogoProductos', JSON.stringify(productos))
+  }), [productos]
   return (
     <>
     <BrowserRouter>
       <Menu usuarioAdmin={usuarioAdmin} setUsuarioAdmin={setUsuarioAdmin}></Menu>
       <main>
         <Routes>
-          <Route path="/" element={<Inicio></Inicio>}></Route>
+          <Route path="/" element={<Inicio productos={productos}></Inicio>}></Route>
           <Route path="/detalle" element={<DetalleProducto></DetalleProducto>}></Route>
           <Route path="/login" element={<Login setUsuarioAdmin={setUsuarioAdmin}></Login>}></Route>
           <Route path="/administrador" element={<ProtectorAdmin isAdmin={usuarioAdmin}></ProtectorAdmin>}>
