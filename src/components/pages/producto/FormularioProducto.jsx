@@ -21,6 +21,7 @@ const FormularioProducto = ({crearProducto}) => {
         icon: "success"
 });
     }
+    reset();
   };
  
   return (
