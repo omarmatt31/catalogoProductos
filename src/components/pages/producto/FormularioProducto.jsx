@@ -1,7 +1,9 @@
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import Swal from 'sweetalert2'
 
-const FormularioProducto = () => {
+
+const FormularioProducto = ({crearProducto}) => {
     const {
     register,
     handleSubmit,
@@ -11,7 +13,14 @@ const FormularioProducto = () => {
 
   const onSubmit = (producto) => {
     console.log(producto);
-    
+    //crear el producto nuevo
+    if(crearProducto(producto)){
+      Swal.fire({
+        title: "Producto creado",
+        text: `El producto ${producto.nombreProducto} fue creado correctamente`,
+        icon: "success"
+});
+    }
   };
  
   return (
