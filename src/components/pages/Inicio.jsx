@@ -9,6 +9,8 @@ const Inicio = ({productos}) => {
     setTerminoBusqueda(e.target.value)
   }
 
+  const productosFiltrados = productos.filter((producto)=> producto.nombreProducto.toLowerCase().includes(terminoBusqueda.toLowerCase()))
+
   return (
     <section className="mainSection">
       <img
@@ -27,9 +29,11 @@ const Inicio = ({productos}) => {
         </Form>
         <Row>
           {
-
-            productos.map((producto)=> <CardProducto key={producto.id} producto={producto}></CardProducto>)
-
+            productosFiltrados.length > 0 ? (
+            productosFiltrados.map((producto)=> <CardProducto key={producto.id} producto={producto}></CardProducto>)
+            ) : (
+              <p>No se encontraron productos para mostrar</p>
+            )
           }
         </Row>
       </Container>
