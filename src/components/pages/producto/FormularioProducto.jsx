@@ -3,6 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router";
 import Swal from 'sweetalert2'
+import { crearProducto } from "../../../helpers/queries";
 
 
 const FormularioProducto = ({crearProducto, titulo, buscarProducto}) => {
@@ -32,10 +33,11 @@ const FormularioProducto = ({crearProducto, titulo, buscarProducto}) => {
 
   }, [])
 
-  const onSubmit = (producto) => {
+  const onSubmit = async(producto) => {
     console.log(producto);
     //crear el producto nuevo
-    if(crearProducto(producto)){
+    const respuesta = await crearProducto(producto)
+    if(respuesta.status === 201){
       Swal.fire({
         title: "Producto creado",
         text: `El producto ${producto.nombreProducto} fue creado correctamente`,
@@ -43,7 +45,7 @@ const FormularioProducto = ({crearProducto, titulo, buscarProducto}) => {
 });
     }
     reset();
-  };
+  };//se puede agregar un else con un mensaje
  
   return (
     <section className="container mainSection">
