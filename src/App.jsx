@@ -36,6 +36,11 @@ function App() {
     setProductos(productosFiltrados)
     return true
   }
+
+  const buscarProducto = (id)=>{
+      const productoBuscado = productos.find((itemProducto)=> itemProducto.id === id)
+      return productoBuscado
+  }
   return (
     <>
     <BrowserRouter>
@@ -47,8 +52,8 @@ function App() {
           <Route path="/login" element={<Login setUsuarioAdmin={setUsuarioAdmin}></Login>}></Route>
           <Route path="/administrador" element={<ProtectorAdmin isAdmin={usuarioAdmin}></ProtectorAdmin>}>
             <Route index element={<Administrador setProductos={setProductos} productos={productos} borrarProducto={borrarProducto}></Administrador>}></Route>
-            <Route path="crear" element={<FormularioProducto crearProducto={crearProducto}></FormularioProducto>}></Route>
-            <Route path="editar" element={<FormularioProducto></FormularioProducto>}></Route>
+            <Route path="crear" element={<FormularioProducto titulo={'Crear Producto'} crearProducto={crearProducto}></FormularioProducto>}></Route>
+            <Route path="editar/:id" element={<FormularioProducto titulo={'Editar Producto'} buscarProducto={buscarProducto} ></FormularioProducto>}></Route>
           </Route>
           <Route path="*" element={<Error404></Error404>}></Route>
         </Routes>
