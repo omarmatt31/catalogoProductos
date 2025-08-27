@@ -6,7 +6,7 @@ import Swal from 'sweetalert2'
 import { crearProducto } from "../../../helpers/queries";
 
 
-const FormularioProducto = ({crearProducto, titulo, buscarProducto}) => {
+const FormularioProducto = ({titulo, buscarProducto}) => {
   const {
       register,
       handleSubmit,
@@ -19,6 +19,7 @@ const FormularioProducto = ({crearProducto, titulo, buscarProducto}) => {
 
   useEffect(()=>{
     //verificar si estoy editando
+    obtenerProducto();
     if(titulo==='Editar Producto'){
     //busco el producto por id y lo dibujo en el formulario
     const productoBuscado = buscarProducto(id)
