@@ -1,9 +1,25 @@
 import { Container, Row, Form } from "react-bootstrap";
 import CardProducto from "./producto/CardProducto";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { leerProductos } from "../../helpers/queries";
 
-const Inicio = ({productos}) => {
+const Inicio = () => {
   const [terminoBusqueda, setTerminoBusqueda] = useState('')
+  const [productos, setProductos] = useState([]);
+
+  useEffect(()=>{
+    obtenerProductos()
+  }, [])
+
+  const obtenerProductos = async ()=>{
+    const respuesta = await leerProductos()
+    if(respuesta.status === 200){
+      const datos = await respuesta.json()
+      setProductos(datos)
+    }else{
+      console.info('Ocurrio un error al buscar un producto')
+    }
+  }
 
   const handleInputChange = (e)=>{
     setTerminoBusqueda(e.target.value)
@@ -30,7 +46,7 @@ const Inicio = ({productos}) => {
         <Row>
           {
             productosFiltrados.length > 0 ? (
-            productosFiltrados.map((producto)=> <CardProducto key={producto.id} producto={producto}></CardProducto>)
+            productosFiltrados.map((producto)=> <CardProducto key={producto._id} producto={producto}></CardProducto>)
             ) : (
               <p>No se encontraron productos para mostrar</p>
             )

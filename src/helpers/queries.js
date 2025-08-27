@@ -1,7 +1,6 @@
 const urlproductos = import.meta.env.VITE_API_PRODUCTOS
 //get, post, put, delete
 
-console.log(urlproductos)
 
 export const leerProductos = async()=>{
     try{
