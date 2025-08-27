@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Swal from 'sweetalert2'
-import { crearProducto } from "../../../helpers/queries";
+import { crearProducto, editarProducto, obtenerProductoPorId } from "../../../helpers/queries";
 
 
 const FormularioProducto = ({titulo, buscarProducto}) => {
@@ -16,36 +16,56 @@ const FormularioProducto = ({titulo, buscarProducto}) => {
     } = useForm();
 
   const {id} = useParams()
+  const navegacion = useNavigate();
 
+  
   useEffect(()=>{
     //verificar si estoy editando
     obtenerProducto();
-    if(titulo==='Editar Producto'){
-    //busco el producto por id y lo dibujo en el formulario
-    const productoBuscado = buscarProducto(id)
-    console.log(productoBuscado)
-    setValue('nombreProducto', productoBuscado.nombreProducto)
-    setValue('precio', productoBuscado.precio)
-    setValue('imagen', productoBuscado.imagen)
-    setValue('categoria', productoBuscado.categoria)
-    setValue('descripcion_breve', productoBuscado.descripcion_breve)
-    setValue('descripcion_amplia', productoBuscado.descripcion_amplia)
-    }
 
   }, [])
 
-  const onSubmit = async(producto) => {
-    console.log(producto);
-    //crear el producto nuevo
-    const respuesta = await crearProducto(producto)
-    if(respuesta.status === 201){
-      Swal.fire({
-        title: "Producto creado",
-        text: `El producto ${producto.nombreProducto} fue creado correctamente`,
-        icon: "success"
-});
+  const obtenerProducto = async()=> {
+      if(titulo==='Editar Producto'){
+      //busco el producto por id y lo dibujo en el formulario
+        const respuesta = await obtenerProductoPorId(id)
+        if(respuesta.status === 200){
+            const productoBuscado = await respuesta.json()
+            setValue('nombreProducto', productoBuscado.nombreProducto)
+            setValue('precio', productoBuscado.precio)
+            setValue('imagen', productoBuscado.imagen)
+            setValue('categoria', productoBuscado.categoria)
+            setValue('descripcion_breve', productoBuscado.descripcion_breve)
+            setValue('descripcion_amplia', productoBuscado.descripcion_amplia)
+        }
+      }
     }
-    reset();
+
+
+  const onSubmit = async(producto) => {
+    if(titulo === "Crear producto"){
+      console.log(producto);
+      //crear el producto nuevo
+      const respuesta = await crearProducto(producto)
+      if(respuesta.status === 201){
+        Swal.fire({
+          title: "Producto creado",
+          text: `El producto ${producto.nombreProducto} fue creado correctamente`,
+          icon: "success"
+        });
+      }
+      reset();
+    }else{
+      const respuesta = await editarProducto(producto, id)
+      if(respuesta.status === 200){
+        Swal.fire({
+          title: "Producto editado",
+          text: `El producto ${producto.nombreProducto} fue editado correctamente`,
+          icon: "success"
+        });
+        navegacion('/administrador')
+      }
+    }
   };//se puede agregar un else con un mensaje
  
   return (
