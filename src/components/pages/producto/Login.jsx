@@ -1,7 +1,7 @@
 import { Row, Col, Form, Button} from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { login } from "../../../helpers/queries";
+import { login } from "../../../helpers/queries.js";
 import Swal from "sweetalert2";
 
 const Login = ({setUsuarioAdmin}) => {
@@ -14,16 +14,19 @@ const Login = ({setUsuarioAdmin}) => {
 
     const iniciarSesion= async (usuario)=>{
         const respuesta = await login(usuario)
-        if(respuesta === 200){
+        console.log(respuesta.status)
+        if(respuesta.status === 200){
             const datosUsuario = await respuesta.json()
             console.log(datosUsuario)
-            //actualizar el state usuarioAdmin
+            //actualizar el state usuarioAdmin}
             //guardar los datos en el sessionstorage
+            setUsuarioAdmin({nombreUsuario: datosUsuario.nombreUsuario, token: datosUsuario.token})
             Swal.fire({
                 title: "Incio de sesión correcto",
                 text: `Bienvenido ${datosUsuario.nombreUsuario}`,
                 icon: "success"
             });
+            navegacion('/administrador')
         }else{
             Swal.fire({
                 title: "Error al iniciar sesion",

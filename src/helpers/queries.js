@@ -1,5 +1,5 @@
 const urlproductos = import.meta.env.VITE_API_PRODUCTOS
-const urlUsuarios = import.meta.env.VITE_API_USUARIOS
+const urlUsuario = import.meta.env.VITE_API_USUARIOS
 //get, post, put, delete
 
 
@@ -69,7 +69,7 @@ export const borrarProductoPorId = async(id)=>{
 
 export const login = async(datosUsuarios)=>{
     try{
-        const respuesta = await fetch(urlUsuarios+'/login', {
+        const respuesta = await fetch(urlUsuario+'/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
