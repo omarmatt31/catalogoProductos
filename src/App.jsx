@@ -19,9 +19,6 @@ function App() {
   const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado)
   const [productos, setProductos] = useState(productosLocalStorage)
 
-  useEffect(()=>{
-    localStorage.setItem('catalogoProductos', JSON.stringify(productos))
-  }, [productos])
 
   useEffect(()=>{
     sessionStorage.setItem('userKey', JSON.stringify(usuarioAdmin))
@@ -51,11 +48,11 @@ function App() {
       <Menu usuarioAdmin={usuarioAdmin} setUsuarioAdmin={setUsuarioAdmin}></Menu>
       <main>
         <Routes>
-          <Route path="/" element={<Inicio productos={productos}></Inicio>}></Route>
+          <Route path="/" element={<Inicio></Inicio>}></Route>
           <Route path="/detalle" element={<DetalleProducto></DetalleProducto>}></Route>
           <Route path="/login" element={<Login setUsuarioAdmin={setUsuarioAdmin}></Login>}></Route>
           <Route path="/administrador" element={<ProtectorAdmin isAdmin={usuarioAdmin}></ProtectorAdmin>}>
-            <Route index element={<Administrador setProductos={setProductos} productos={productos} borrarProducto={borrarProducto}></Administrador>}></Route>
+            <Route index element={<Administrador></Administrador>}></Route>
             <Route path="crear" element={<FormularioProducto titulo={'Crear Producto'} crearProducto={crearProducto}></FormularioProducto>}></Route>
             <Route path="editar/:id" element={<FormularioProducto titulo={'Editar Producto'} buscarProducto={buscarProducto} ></FormularioProducto>}></Route>
           </Route>
