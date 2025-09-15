@@ -6,7 +6,7 @@ import Swal from 'sweetalert2'
 import { crearProducto, editarProducto, obtenerProductoPorId } from "../../../helpers/queries";
 
 
-const FormularioProducto = ({titulo, buscarProducto}) => {
+const FormularioProducto = ({titulo}) => {
   const {
       register,
       handleSubmit,

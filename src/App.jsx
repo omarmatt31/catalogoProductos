@@ -3,45 +3,24 @@ import Administrador from "./components/pages/Administrador";
 import DetalleProducto from "./components/pages/DetalleProducto";
 import Error404 from "./components/pages/Error404";
 import Inicio from "./components/pages/Inicio";
-import CardProducto from "./components/pages/producto/CardProducto";
 import FormularioProducto from "./components/pages/producto/FormularioProducto";
 import Footer from "./components/shared/Footer";
 import Menu from "./components/shared/Menu";
 import Login from "./components/pages/producto/Login";
 import { useEffect, useState } from "react";
 import ProtectorAdmin from "./components/routes/ProtectorAdmin";
-import { v4 as uuidv4 } from 'uuid';
+
 
 
 function App() {
   const usuarioLogueado = JSON.parse(sessionStorage.getItem('userKey')) || {}
-  const productosLocalStorage = JSON.parse(localStorage.getItem('catalogoProductos')) || []
   const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado)
-  const [productos, setProductos] = useState(productosLocalStorage)
 
 
   useEffect(()=>{
     sessionStorage.setItem('userKey', JSON.stringify(usuarioAdmin))
   }, [usuarioAdmin])
 
-  const crearProducto = (productoNuevo)=>{
-    //agregar un id unico al producto Nuevo
-    productoNuevo.id = uuidv4();
-    //agregar el producto al state de productos
-    setProductos([...productos,productoNuevo])
-    return true
-  }
-
-  const borrarProducto = (idProducto)=>{
-    const productosFiltrados = productos.filter((itemProducto)=> itemProducto.id !== idProducto)
-    setProductos(productosFiltrados)
-    return true
-  }
-
-  const buscarProducto = (id)=>{
-      const productoBuscado = productos.find((itemProducto)=> itemProducto.id === id)
-      return productoBuscado
-  }
   return (
     <>
     <BrowserRouter>
@@ -53,8 +32,8 @@ function App() {
           <Route path="/login" element={<Login setUsuarioAdmin={setUsuarioAdmin}></Login>}></Route>
           <Route path="/administrador" element={<ProtectorAdmin isAdmin={usuarioAdmin}></ProtectorAdmin>}>
             <Route index element={<Administrador></Administrador>}></Route>
-            <Route path="crear" element={<FormularioProducto titulo={'Crear Producto'} crearProducto={crearProducto}></FormularioProducto>}></Route>
-            <Route path="editar/:id" element={<FormularioProducto titulo={'Editar Producto'} buscarProducto={buscarProducto} ></FormularioProducto>}></Route>
+            <Route path="crear" element={<FormularioProducto titulo={'Crear Producto'}></FormularioProducto>}></Route>
+            <Route path="editar/:id" element={<FormularioProducto titulo={'Editar Producto'}></FormularioProducto>}></Route>
           </Route>
           <Route path="*" element={<Error404></Error404>}></Route>
         </Routes>
