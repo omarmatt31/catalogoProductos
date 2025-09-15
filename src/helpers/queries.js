@@ -59,6 +59,10 @@ export const borrarProductoPorId = async(id)=>{
     try{
         const respuesta = await fetch(urlproductos+`/${id}`, {
             method: 'DELETE',
+            headers: {
+                'x-token': JSON.parse(sessionStorage.getItem('userKey')).token
+            },
+            body: JSON.stringify(datosUsuarios)
         })
         return respuesta
     }catch(error){
