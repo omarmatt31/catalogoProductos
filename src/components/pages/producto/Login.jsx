@@ -14,10 +14,8 @@ const Login = ({setUsuarioAdmin}) => {
 
     const iniciarSesion= async (usuario)=>{
         const respuesta = await login(usuario)
-        console.log(respuesta.status)
         if(respuesta.status === 200){
             const datosUsuario = await respuesta.json()
-            console.log(datosUsuario)
             //actualizar el state usuarioAdmin}
             //guardar los datos en el sessionstorage
             setUsuarioAdmin({nombreUsuario: datosUsuario.nombreUsuario, token: datosUsuario.token})
@@ -34,17 +32,6 @@ const Login = ({setUsuarioAdmin}) => {
                 icon: "error",
       });
         }
-        /*console.log(usuario)
-        if(usuario.email === import.meta.env.VITE_API_EMAIL && usuario.password === import.meta.env.VITE_API_PASSWORD){
-            //soy el administrador
-            console.log('Soy el administrador')
-            setUsuarioAdmin(true)
-            sessionStorage.setItem('userKey', true)
-            navegacion('/administrador')
-        }else {
-            console.log('Email o contraseña incorrecto.')
-        }
-*/
     }
 
     return (
