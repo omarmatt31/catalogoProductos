@@ -52,6 +52,13 @@ const FormularioProducto = ({titulo}) => {
           text: `El producto ${producto.nombreProducto} fue creado correctamente`,
           icon: "success"
         });
+      }else{
+        const datosErroneos = await respuesta.json()
+        Swal.fire({
+          icon: "error",
+          title: "Ocurrio un error",
+          text:`El producto ${producto.nombreProducto} no pudo ser creado. ${datosErroneos[0].msg}`,
+        });
       }
       reset();
     }else{
@@ -63,6 +70,12 @@ const FormularioProducto = ({titulo}) => {
           icon: "success"
         });
         navegacion('/administrador')
+      }else{
+        Swal.fire({
+          icon: "error",
+          title: "Ocurrio un error",
+          text:`El producto ${producto.nombreProducto} no pudo ser editado. ${datosErroneos[0].msg}`,
+        });
       }
     }
   };//se puede agregar un else con un mensaje
